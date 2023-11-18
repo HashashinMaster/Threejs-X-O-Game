@@ -4,8 +4,9 @@ import { Euler } from "three";
 type Props = {
   position: [x: number, y: number, z: number];
   color: string;
+  index: number;
 };
-export default function Box({ position, color }: Props) {
+export default function Box({ position, color, index }: Props) {
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState(false);
   return (
@@ -29,7 +30,7 @@ export default function Box({ position, color }: Props) {
       </mesh>
       {(show || selected) && (
         <mesh rotation={new Euler(0, Math.PI / 2, Math.PI / 2, "ZXY")}>
-          <torusGeometry args={[1, 0.5]} />
+          <torusGeometry args={[1, 0.3]} />
           <meshStandardMaterial color={color} />
         </mesh>
       )}
