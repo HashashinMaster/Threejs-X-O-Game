@@ -16,30 +16,31 @@ export default function Box({ position, color, index }: Props) {
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState(false);
   const [mark, setMark] = useState<JSX.Element | undefined>();
-  const { player1, currentPlayer } = useSelector(
+  const { player1, currentPlayer, winner } = useSelector(
     (state: RootState) => state.gameReducer
   );
   const dispatch = useDispatch();
-  //   useEffect(() => {
+  // const winMatch =
+  //   winner && winner.winPattern && winner.winPattern.includes(index)
+  //     ? true
+  //     : false;
 
-  //   },[])
   return (
     <group position={position}>
       <mesh
         onClick={() => {
-          if (!selected) {
+          if (!selected && !winner.player) {
             dispatch(
               addPlayerMove({
                 player: currentPlayer.name as "player1" | "player2",
                 move: index,
               })
             );
-            console.log(currentPlayer, player1);
             setMark(
               currentPlayer === player1 ? (
-                <X selected={true} />
+                <X selected={true} index={index} />
               ) : (
-                <O selected={true} />
+                <O selected={true} index={index} />
               )
             );
             setSelected(true);
@@ -66,9 +67,9 @@ export default function Box({ position, color, index }: Props) {
       {show &&
         !selected &&
         (currentPlayer === player1 ? (
-          <X selected={selected} />
+          <X index={index} selected={selected} />
         ) : (
-          <O selected={selected} />
+          <O index={index} selected={selected} />
         ))}
       {selected && mark}
 
