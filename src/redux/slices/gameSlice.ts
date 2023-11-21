@@ -10,7 +10,10 @@ export interface GameState {
   player2: Player;
   currentPlayer: Player;
   winPatterns: number[][];
-  winner: Player | undefined;
+  winner: {
+    player: Player | undefined;
+    winPattern: number[];
+  };
 }
 
 const initialState: GameState = {
@@ -38,10 +41,13 @@ const initialState: GameState = {
     [0, 4, 8],
     [2, 4, 6],
   ],
-  winner: undefined,
+  winner: {
+    player: undefined,
+    winPattern: [],
+  },
 };
 
-export const counterSlice = createSlice({
+export const gameSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
@@ -51,6 +57,8 @@ export const counterSlice = createSlice({
     ) {
       state.player1.name = action.payload.player1Name;
       state.player2.name = action.payload.player2Name;
+      state.player1.moves = [];
+      state.player2.moves = [];
       state.currentPlayer = Math.random() < 0.5 ? state.player1 : state.player2;
     },
     addPlayerMove(
@@ -59,6 +67,7 @@ export const counterSlice = createSlice({
     ) {
       const { player, move } = action.payload;
       state[player].moves.push(move);
+      gameSlice.caseReducers.checkForWinner(state);
     },
     toggleCurrentPlayer(state) {
       if (state.currentPlayer.name === state.player1.name) {
@@ -67,9 +76,34 @@ export const counterSlice = createSlice({
         state.currentPlayer = state.player1;
       }
     },
+    checkForWinner(state) {
+      for (let winPattern of state.winPatterns) {
+        const player1WinMatch = winPattern.every((pt) =>
+          state.player1.moves.includes(pt)
+        );
+        if (player1WinMatch) {
+          state.winner.player = state.player1;
+          state.winner.winPattern = winPattern;
+          return;
+        }
+        const player2WinMatch = winPattern.every((pt) =>
+          state.player2.moves.includes(pt)
+        );
+        if (player2WinMatch) {
+          state.winner.player = state.player2;
+          state.winner.winPattern = winPattern;
+
+          return;
+        }
+      }
+    },
   },
 });
 
-export const { initialStart, addPlayerMove, toggleCurrentPlayer } =
-  counterSlice.actions;
-export default counterSlice.reducer;
+export const {
+  initialStart,
+  addPlayerMove,
+  toggleCurrentPlayer,
+  checkForWinner,
+} = gameSlice.actions;
+export default gameSlice.reducer;
