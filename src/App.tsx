@@ -1,3 +1,4 @@
+import Board from "./components/Board";
 import BoxesContainer from "./components/BoxesContainer";
 import { Canvas } from "@react-three/fiber";
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Canvas>
           <axesHelper scale={[5, 5, 5]} />
           <color attach="background" args={["#423c68"]} />
+          <Board />
           <BoxesContainer />
           <ambientLight intensity={0.1} />
           <directionalLight position={[0, 0, 5]} />
