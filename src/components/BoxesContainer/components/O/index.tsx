@@ -2,11 +2,20 @@ import { Euler } from "three";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-export default function O({ selected }: { selected: boolean }) {
-  const oRef = useRef<THREE.Mesh>(null!);
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
+import { useFrame } from "@react-three/fiber";
 
+export default function O({
+  selected,
+  index,
+}: {
+  selected: boolean;
+  index: number;
+}) {
+  const oRef = useRef<THREE.Mesh>(null!);
+  const { winner } = useSelector((state: RootState) => state.gameReducer);
   useEffect(() => {
-    console.log(selected);
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
     if (!selected) {
       tl.to(oRef.current.position, { y: 3, duration: 0.4 });
@@ -16,6 +25,32 @@ export default function O({ selected }: { selected: boolean }) {
       gsap.to(oRef.current.position, { y: 0.4, duration: 0.4 });
     }
   }, [selected]);
+
+  useEffect(() => {
+    if (
+      winner && winner.winPattern && winner.winPattern.includes(index)
+        ? true
+        : false
+    ) {
+      console.log("should animate");
+      const tl2 = gsap.timeline({ yoyo: true });
+      tl2.to(oRef.current.position, {
+        y: 3,
+        duration: 0.4,
+      });
+    }
+  }, [winner.player]);
+
+  useFrame(() => {
+    if (
+      winner && winner.winPattern && winner.winPattern.includes(index)
+        ? true
+        : false
+    ) {
+      oRef.current.rotation.z += 0.1;
+      // console.log(xRef.current.rotation.z);
+    }
+  });
   return (
     <mesh
       ref={oRef}
