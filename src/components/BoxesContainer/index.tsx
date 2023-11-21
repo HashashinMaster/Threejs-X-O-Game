@@ -2,9 +2,9 @@ import Box from "./components/Box";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { initialStart } from "../../redux/slices/gameSlice";
+
 export default function BoxesContainer() {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(
       initialStart({
@@ -13,7 +13,6 @@ export default function BoxesContainer() {
       })
     );
   });
-
   return (
     <>
       <group

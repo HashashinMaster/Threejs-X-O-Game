@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import O from "../O";
 import X from "../X";
@@ -16,14 +16,13 @@ export default function Box({ position, color, index }: Props) {
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState(false);
   const [mark, setMark] = useState<JSX.Element | undefined>();
-  const { player1, currentPlayer, winner } = useSelector(
+  const { player1, currentPlayer, winner, restart } = useSelector(
     (state: RootState) => state.gameReducer
   );
   const dispatch = useDispatch();
-  // const winMatch =
-  //   winner && winner.winPattern && winner.winPattern.includes(index)
-  //     ? true
-  //     : false;
+  useEffect(() => {
+    if (selected) setSelected(false);
+  }, [restart]);
 
   return (
     <group position={position}>
@@ -49,7 +48,7 @@ export default function Box({ position, color, index }: Props) {
           } else alert("pick another spot");
         }}
         onPointerEnter={() => {
-          if (!selected) {
+          if (!selected && !winner.player) {
             setShow(true);
             document.body.style.cursor = "pointer";
           } else {

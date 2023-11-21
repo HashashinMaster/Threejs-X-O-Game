@@ -32,7 +32,6 @@ export default function O({
         ? true
         : false
     ) {
-      console.log("should animate");
       const tl2 = gsap.timeline({ yoyo: true });
       tl2.to(oRef.current.position, {
         y: 3,

@@ -12,6 +12,9 @@ import { useRef, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import gsap from "gsap";
+import { useFrame } from "@react-three/fiber";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 type GLTFResult = GLTF & {
   nodes: {
     Object_2: THREE.Mesh;
@@ -22,30 +25,94 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function Face(props: JSX.IntrinsicElements["group"]) {
+export function Face(
+  props: JSX.IntrinsicElements["group"] & { color: string; playerName: string }
+) {
   const { nodes } = useGLTF("/models/mask.glb") as GLTFResult;
   const faceRef = useRef<THREE.Group>(null!);
-
+  const pointerRef = useRef<THREE.Mesh>(null!);
+  const { currentPlayer, player1, winner, restart } = useSelector(
+    (state: RootState) => state.gameReducer
+  );
+  const rotation: [x: number, z: number, y: number] =
+    currentPlayer.name === player1.name
+      ? [0, (2 * Math.PI) / 2, 0]
+      : [0, Math.PI / 2, 0];
   useEffect(() => {
-    const tl = gsap.timeline({ repeat: -1, yoyo: true });
-    tl.to(faceRef.current.position, {
-      y: 0.4,
-      duration: 2,
-    });
+    if (!winner.player) {
+      const tl = gsap.timeline({ repeat: -1, yoyo: true });
+      tl.to(faceRef.current.position, {
+        y: 0.4,
+        duration: 2,
+      });
+    }
   }, []);
-
+  useEffect(() => {
+    if (winner.player && winner.player.name !== props.playerName) {
+      faceRef.current.visible = false;
+    }
+  }, [winner.player]);
+  useEffect(() => {
+    if (faceRef.current.visible === false) faceRef.current.visible = true;
+  }, [restart]);
+  useFrame(() => {
+    if (pointerRef.current) pointerRef.current.rotation.z += 0.01;
+    if (winner.player && winner.player.name === props.playerName) {
+      faceRef.current.rotation.y += 0.05;
+    }
+  });
   return (
     <group {...props} dispose={null} ref={faceRef}>
       <group rotation={[-Math.PI / 2, 0, 0]} scale={0.01}>
         <mesh
           geometry={nodes.Object_2.geometry}
-          material={new THREE.MeshStandardMaterial({ color: "#1296ee" })}
+          material={new THREE.MeshBasicMaterial({ color: props.color })}
         />
         <mesh
           geometry={nodes.Object_3.geometry}
-          material={new THREE.MeshStandardMaterial({ color: "#1296ee" })}
+          material={new THREE.MeshBasicMaterial({ color: props.color })}
         />
       </group>
+      {/* <Html as="div">
+        <div
+          style={{
+            marginTop: 20,
+            border: "1px solid",
+            width: "100px",
+          }}
+        >
+          <svg
+            fill="#000000"
+            height="100px"
+            width="100px"
+            version="1.1"
+            id="Layer_1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 330 330"
+            xml:space="preserve"
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              {" "}
+              <path
+                id="XMLID_225_"
+                d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393 c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393 s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"
+              ></path>{" "}
+            </g>
+          </svg>
+        </div>
+      </Html> */}
+      {currentPlayer.name === props.playerName && !winner.player && (
+        <mesh position={[0, -1, 0]} ref={pointerRef} rotation={rotation}>
+          <tetrahedronGeometry args={[0.5, 0]} />
+          <meshBasicMaterial attach="material" color={props.color} />
+        </mesh>
+      )}
     </group>
   );
 }

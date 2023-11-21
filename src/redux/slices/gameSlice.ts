@@ -14,6 +14,7 @@ export interface GameState {
     player: Player | undefined;
     winPattern: number[];
   };
+  restart: boolean;
 }
 
 const initialState: GameState = {
@@ -45,6 +46,7 @@ const initialState: GameState = {
     player: undefined,
     winPattern: [],
   },
+  restart: false,
 };
 
 export const gameSlice = createSlice({
@@ -59,6 +61,10 @@ export const gameSlice = createSlice({
       state.player2.name = action.payload.player2Name;
       state.player1.moves = [];
       state.player2.moves = [];
+      state.winner = {
+        player: undefined,
+        winPattern: [],
+      };
       state.currentPlayer = Math.random() < 0.5 ? state.player1 : state.player2;
     },
     addPlayerMove(
@@ -97,6 +103,9 @@ export const gameSlice = createSlice({
         }
       }
     },
+    toggleRestart(state) {
+      state.restart = !state.restart;
+    },
   },
 });
 
@@ -105,5 +114,6 @@ export const {
   addPlayerMove,
   toggleCurrentPlayer,
   checkForWinner,
+  toggleRestart,
 } = gameSlice.actions;
 export default gameSlice.reducer;
