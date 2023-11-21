@@ -60,8 +60,16 @@ export const counterSlice = createSlice({
       const { player, move } = action.payload;
       state[player].moves.push(move);
     },
+    toggleCurrentPlayer(state) {
+      if (state.currentPlayer.name === state.player1.name) {
+        state.currentPlayer = state.player2;
+      } else {
+        state.currentPlayer = state.player1;
+      }
+    },
   },
 });
 
-export const { initialStart, addPlayerMove } = counterSlice.actions;
+export const { initialStart, addPlayerMove, toggleCurrentPlayer } =
+  counterSlice.actions;
 export default counterSlice.reducer;
