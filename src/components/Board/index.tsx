@@ -4,7 +4,7 @@ import { Html } from "@react-three/drei";
 import { RootState } from "../../redux/store";
 import { initialStart, toggleRestart } from "../../redux/slices/gameSlice";
 export default function Board() {
-  const { player2, player1, winner } = useSelector(
+  const { player2, player1, winner, draw } = useSelector(
     (state: RootState) => state.gameReducer
   );
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ export default function Board() {
   };
   return (
     <group>
-      {winner.player && (
+      {(winner.player || draw) && (
         <group>
           <Html
             as="div"
