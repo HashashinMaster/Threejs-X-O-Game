@@ -1,7 +1,3 @@
-Absolutely, adding emojis can add a touch of personality! Here's an updated version:
-
----
-
 # 🎮 3D X-O Game
 
 A modern, interactive take on the classic X-O (Tic-Tac-Toe) game, built using Three.js for 3D rendering, GSAP for animations, and incorporating music and sound effects.
