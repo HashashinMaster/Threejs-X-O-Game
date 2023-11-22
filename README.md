@@ -14,7 +14,7 @@ A modern, interactive take on the classic X-O (Tic-Tac-Toe) game, built using Th
 
 ## Demo
 
-will be added soon
+https://HashashinMaster.github.io/Threejs-X-O-Game
 
 ## Installation
 
