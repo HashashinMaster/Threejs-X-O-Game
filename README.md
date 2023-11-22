@@ -10,7 +10,7 @@ A modern, interactive take on the classic X-O (Tic-Tac-Toe) game, built using Th
 
 ## Demo
 
-https://HashashinMaster.github.io/Threejs-X-O-Game
+[Click here to see Demo](https://HashashinMaster.github.io/Threejs-X-O-Game).
 
 ## Installation
 
@@ -60,4 +60,4 @@ Feel free to contribute by opening issues or submitting pull requests.
 
 ## License
 
-will be added soon;
+This project is licensed under the [MIT License](LICENSE).
