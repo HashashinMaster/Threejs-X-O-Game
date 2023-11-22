@@ -54,6 +54,9 @@ export function Face(
   }, [winner.player]);
   useEffect(() => {
     if (faceRef.current.visible === false) faceRef.current.visible = true;
+    const [x, y, z] = props.rotation as [x: number, y: number, z: number];
+    const eulerRotation = new THREE.Euler(x, y, z, "XYZ");
+    faceRef.current.rotation.copy(eulerRotation);
   }, [restart]);
   useFrame(() => {
     if (pointerRef.current) pointerRef.current.rotation.z += 0.01;
