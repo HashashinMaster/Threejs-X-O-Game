@@ -50,7 +50,7 @@ const initialState: GameState = {
 };
 
 export const gameSlice = createSlice({
-  name: "counter",
+  name: "game",
   initialState,
   reducers: {
     initialStart(
