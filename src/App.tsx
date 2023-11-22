@@ -1,6 +1,7 @@
 import Board from "./components/Board";
 import BoxesContainer from "./components/BoxesContainer";
 import { Canvas } from "@react-three/fiber";
+import Sound from "./components/Sound";
 function App() {
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
           <directionalLight position={[0, 0, 5]} />
         </Canvas>
       </div>
+      <Sound />
     </>
   );
 }
