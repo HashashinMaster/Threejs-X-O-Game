@@ -43,9 +43,8 @@ export default function Box({ position, color, index }: Props) {
               )
             );
             setSelected(true);
-
             dispatch(toggleCurrentPlayer());
-          } else alert("pick another spot");
+          }
         }}
         onPointerEnter={() => {
           if (!selected && !winner.player) {
