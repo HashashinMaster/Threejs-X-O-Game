@@ -28,7 +28,7 @@ type GLTFResult = GLTF & {
 export function Face(
   props: JSX.IntrinsicElements["group"] & { color: string; playerName: string }
 ) {
-  const { nodes } = useGLTF("/models/mask.glb") as GLTFResult;
+  const { nodes } = useGLTF("models/mask.glb") as GLTFResult;
   const faceRef = useRef<THREE.Group>(null!);
   const pointerRef = useRef<THREE.Mesh>(null!);
   const { currentPlayer, player1, winner, restart } = useSelector(
@@ -120,4 +120,4 @@ export function Face(
   );
 }
 
-useGLTF.preload("/models/mask.glb");
+useGLTF.preload("models/mask.glb");

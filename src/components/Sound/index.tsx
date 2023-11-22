@@ -89,10 +89,10 @@ export default function Sound() {
           </svg>
         </div>
       </div>
-      <audio loop ref={bgAudioRef} src="/sounds/bg-music.mp3"></audio>
-      <audio ref={selectAudioRef} src="/sounds/select.mp3"></audio>
-      <audio ref={successAudioRef} src="/sounds/success.mp3"></audio>
-      <audio ref={drawAudioRef} src="/sounds/draw.mp3"></audio>
+      <audio loop ref={bgAudioRef} src="sounds/bg-music.mp3"></audio>
+      <audio ref={selectAudioRef} src="sounds/select.mp3"></audio>
+      <audio ref={successAudioRef} src="sounds/success.mp3"></audio>
+      <audio ref={drawAudioRef} src="sounds/draw.mp3"></audio>
     </>
   );
 }
