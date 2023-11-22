@@ -15,6 +15,7 @@ export interface GameState {
     winPattern: number[];
   };
   restart: boolean;
+  draw: boolean;
 }
 
 const initialState: GameState = {
@@ -47,6 +48,7 @@ const initialState: GameState = {
     winPattern: [],
   },
   restart: false,
+  draw: false,
 };
 
 export const gameSlice = createSlice({
@@ -65,6 +67,8 @@ export const gameSlice = createSlice({
         player: undefined,
         winPattern: [],
       };
+      state.draw = false;
+
       state.currentPlayer = Math.random() < 0.5 ? state.player1 : state.player2;
     },
     addPlayerMove(
@@ -83,6 +87,9 @@ export const gameSlice = createSlice({
       }
     },
     checkForWinner(state) {
+      const totalMoves =
+        state.player1.moves.length + state.player2.moves.length;
+
       for (let winPattern of state.winPatterns) {
         const player1WinMatch = winPattern.every((pt) =>
           state.player1.moves.includes(pt)
@@ -101,6 +108,9 @@ export const gameSlice = createSlice({
 
           return;
         }
+      }
+      if (totalMoves === 9) {
+        state.draw = true;
       }
     },
     toggleRestart(state) {
