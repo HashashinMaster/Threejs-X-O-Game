@@ -13,7 +13,6 @@ function App() {
         }}
       >
         <Canvas>
-          <axesHelper scale={[5, 5, 5]} />
           <color attach="background" args={["#423c68"]} />
           <Board />
           <BoxesContainer />
