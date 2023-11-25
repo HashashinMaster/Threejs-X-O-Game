@@ -33,13 +33,11 @@ export default function X({
   }, [selected]);
 
   useEffect(() => {
-    console.log("im here");
     if (
       winner && winner.winPattern && winner.winPattern.includes(index)
         ? true
         : false
     ) {
-      console.log("should animate");
       const tl2 = gsap.timeline();
       tl2.to(xRef.current.position, {
         y: 3,
@@ -48,14 +46,13 @@ export default function X({
     }
   }, [winner.player]);
 
-  useFrame(() => {
+  useFrame((_, delta) => {
     if (
       winner && winner.winPattern && winner.winPattern.includes(index)
         ? true
         : false
     ) {
-      xRef.current.rotation.z += 0.1;
-      // console.log(xRef.current.rotation.z);
+      xRef.current.rotation.z += 3 * delta;
     }
   });
   return (

@@ -47,14 +47,13 @@ export default function O({
     }
   }, [winner.player]);
 
-  useFrame(() => {
+  useFrame((_, delta) => {
     if (
       winner && winner.winPattern && winner.winPattern.includes(index)
         ? true
         : false
     ) {
-      oRef.current.rotation.z += 0.1;
-      // console.log(xRef.current.rotation.z);
+      oRef.current.rotation.z += 3 * delta;
     }
   });
   return (
